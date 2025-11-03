@@ -70,8 +70,8 @@ make run      # Полный цикл
 │   ├── features.py       # Feature engineering (агрегаты, жанры, TF-IDF, BERT)
 │   ├── train.py          # Обучение модели
 │   ├── predict.py        # Генерация предсказаний
-│   └── validate.py       # Проверка формата submission
-├── stage1_evaluate.py    # Скрипт для оценки качества предсказаний
+│   ├── validate.py       # Проверка формата submission
+│   └── evaluate.py       # Оценка качества предсказаний (метрики)
 └── Makefile              # Удобные команды
 ```
 
@@ -86,10 +86,10 @@ make run      # Полный цикл
 
 ## Оценка модели
 
-Для оценки качества предсказаний используется скрипт `stage1_evaluate.py`:
+Для оценки качества предсказаний используется скрипт `evaluate.py`:
 
 ```bash
-poetry run python stage1_evaluate.py --solution stage1_private_solution.csv --submission output/submissions/submission.csv
+poetry run python -m src.baseline.evaluate --solution stage1_private_solution.csv --submission output/submissions/submission.csv
 ```
 
 Скрипт вычисляет метрики для public и private частей тестовой выборки.

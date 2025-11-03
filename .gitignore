@@ -1,16 +1,22 @@
+# Python
 .venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# IDE
 .mypy_cache/
 .ruff_cache/
 .DS_Store/
+.vscode/
+.idea/
 
-__pycache__/
-
+# Project specific
 data/
 output/
 
-# dev #TODO: delete
-valid_solution.csv
-solution.csv
-stage1_evaluate.py
-stage1_private_solution.csv
-submission.csv
+# Temporary files
+*.tmp
+*.log
