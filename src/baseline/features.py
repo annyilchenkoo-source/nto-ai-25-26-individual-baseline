@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import torch
 from sklearn.feature_extraction.text import TfidfVectorizer
+from tqdm import tqdm
 from transformers import AutoModel, AutoTokenizer
 
 from . import config, constants
@@ -205,7 +206,7 @@ def add_bert_features(df: pd.DataFrame, _train_df: pd.DataFrame, descriptions_df
         num_batches = (len(descriptions) + config.BERT_BATCH_SIZE - 1) // config.BERT_BATCH_SIZE
 
         with torch.no_grad():
-            for batch_idx in range(num_batches):
+            for batch_idx in tqdm(range(num_batches), desc="Processing BERT batches", unit="batch"):
                 start_idx = batch_idx * config.BERT_BATCH_SIZE
                 end_idx = min(start_idx + config.BERT_BATCH_SIZE, len(descriptions))
                 batch_descriptions = descriptions[start_idx:end_idx]
@@ -249,9 +250,6 @@ def add_bert_features(df: pd.DataFrame, _train_df: pd.DataFrame, descriptions_df
                 # Small pause between batches to let GPU cool down and prevent overheating
                 if config.BERT_DEVICE == "cuda":
                     time.sleep(0.2)  # 200ms pause between batches
-
-                if (batch_idx + 1) % 10 == 0:
-                    print(f"Processed {batch_idx + 1}/{num_batches} batches...")
 
         # Save embeddings for future use
         joblib.dump(embeddings_dict, embeddings_path)

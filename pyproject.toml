@@ -16,6 +16,7 @@ dependencies = [
     "torch (>=2.0.0)",
     "sentencepiece (>=0.1.99)",
     "gdown (>=5.2.0,<6.0.0)",
+    "tqdm (>=4.67.1,<5.0.0)",
 ]
 
 
