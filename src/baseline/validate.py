@@ -57,13 +57,10 @@ def validate() -> None:
             sub_df[constants.COL_PREDICTION]
             .between(constants.PREDICTION_MIN_VALUE, constants.PREDICTION_MAX_VALUE)
             .all()
-        ), (
-            f"Predictions are not within the "
-            f"[{constants.PREDICTION_MIN_VALUE}, {constants.PREDICTION_MAX_VALUE}] range."
-        )
+        ), f"Predictions are not within the [{constants.PREDICTION_MIN_VALUE}, {constants.PREDICTION_MAX_VALUE}] range."
         print("✅ Prediction range [0, 10] check passed.")
 
-        print("\nValidation successful! The submission file appears to be in the " "correct format.")
+        print("\nValidation successful! The submission file appears to be in the correct format.")
 
     except FileNotFoundError as e:
         print(f"Error: {e}. Make sure the required files exist.")
