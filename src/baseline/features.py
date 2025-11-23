@@ -7,10 +7,21 @@ import time
 import joblib
 import numpy as np
 import pandas as pd
-import torch
+try:
+    import torch
+except (ImportError, OSError):
+    # OSError can occur on Windows when DLLs fail to load
+    torch = None
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 from tqdm import tqdm
-from transformers import AutoModel, AutoTokenizer
+
+# Conditional import of transformers (requires torch)
+try:
+    from transformers import AutoModel, AutoTokenizer
+except (ImportError, OSError):
+    AutoModel = None
+    AutoTokenizer = None
 
 from . import config, constants
 
@@ -166,6 +177,12 @@ def add_bert_features(df: pd.DataFrame, _train_df: pd.DataFrame, descriptions_df
         pd.DataFrame: The DataFrame with BERT embeddings added.
     """
     print("Adding text features (BERT embeddings)...")
+    
+    # Check if torch and transformers are available
+    if torch is None or AutoModel is None or AutoTokenizer is None:
+        print("WARNING: PyTorch or transformers is not available. Skipping BERT embeddings.")
+        print("The model will work without BERT features, but performance may be reduced.")
+        return df
 
     # Ensure model directory exists
     config.MODEL_DIR.mkdir(parents=True, exist_ok=True)

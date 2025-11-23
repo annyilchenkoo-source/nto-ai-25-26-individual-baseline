@@ -6,7 +6,8 @@ from pathlib import Path
 
 try:
     import torch
-except ImportError:
+except (ImportError, OSError):
+    # OSError can occur on Windows when DLLs fail to load
     torch = None
 
 from . import constants
